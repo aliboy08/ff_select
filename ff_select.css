@@ -37,12 +37,9 @@
 }
 .ff_select_choices > div.selected {
 	background: #f1f1f1;
+    pointer-events: none;
 }
 .ff_select_choices .no_results {
-	pointer-events: none;
-}
-
-.ff_select_choices > div.selected {
 	pointer-events: none;
 }
 
