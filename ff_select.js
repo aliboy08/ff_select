@@ -14,11 +14,9 @@ class FF_Select {
         this.no_results_html = null;
         this.state = 'close';
 
-        this.with_search = false;
-        if( typeof this.options.search !== 'undefined' ) {
-            this.with_search = this.options.search;
-        }
-
+        this.set_default( 'type', 'dropdown' );
+        this.set_default( 'search', false );
+        
         this.container_init();
         this.selected_indicators_init();
         this.search_init();
@@ -31,6 +29,7 @@ class FF_Select {
     container_init(){
         this.container = document.createElement('div');
         this.container.classList.add('ff_select');
+        this.container.classList.add('type-'+ this.type);
         this.el.after(this.container);
         this.el.style.display = 'none';
 
@@ -45,7 +44,7 @@ class FF_Select {
 
     search_init(){
 
-        if( !this.with_search ) return;
+        if( !this.search ) return;
         this.container.classList.add('with_search');
 
         this.input_container = document.createElement('div');
@@ -155,7 +154,7 @@ class FF_Select {
 
     open_top_with_search_styling(){
         if( typeof this.open_top_styling_applied !== 'undefined' && this.open_top_styling_applied ) return;
-        if( !this.with_search ) return;
+        if( !this.search ) return;
         if( this.open_position != 'top' ) return;
         this.open_top_styling_applied = true;
         this.dropdown_container.style.paddingBottom = this.input_container.offsetHeight + 'px';
@@ -173,7 +172,7 @@ class FF_Select {
 
     search_events(){
 
-        if( !this.with_search ) return;
+        if( !this.search ) return;
 
         this.is_filtered = false;
         this.typing_timeout = null;
@@ -271,13 +270,13 @@ class FF_Select {
     }
     
     on_close_with_search(){
-        if( !this.with_search ) return;
+        if( !this.search ) return;
         this.clear_input();
         this.clear_filter();
     }
 
     on_open_with_search(){
-        if( !this.with_search ) return;
+        if( !this.search ) return;
         this.input.focus();
     }
 
@@ -436,6 +435,10 @@ class FF_Select {
         this.placeholder_text.classList.add('placeholder_text');
         this.placeholder_text.textContent = this.set_option('placeholder', "Select");
         this.selected_indicators.append(this.placeholder_text);
+    }
+
+    set_default(key, value){
+        this[key] = typeof this.options[key] !== 'undefined' ? this.options[key] : value;
     }
 
 }
